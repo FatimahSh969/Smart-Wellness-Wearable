@@ -54,12 +54,13 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
 
                 // Public endpoints
-                .requestMatchers(
-                    "/api/auth/register",
-                    "/api/auth/login",
-                    "/h2-console/**",
-                    "/error"
-                ).permitAll()
+               .requestMatchers(
+    "/api/auth/register",
+    "/api/auth/login",
+    "/api/sensors/readings",   // <-- أضيفي هذا (للاختبار فقط)
+    "/h2-console/**",
+    "/error"
+).permitAll()
 
                 // Admin-only endpoints
                 .requestMatchers("/api/admin/**")
