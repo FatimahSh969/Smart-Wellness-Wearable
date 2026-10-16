@@ -340,3 +340,9 @@ Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: The connection wa
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
 	... 90 more
+2026-10-16 14:57:01.636579+03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "HEART_RATE_READINGS" not found; SQL statement:
+SELECT * FROM HEART_RATE_READINGS [42102-240]
+2026-10-16 14:59:11.153704+03:00 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "HEART_RATE_READINGS" not found; SQL statement:
+SELECT * FROM HEART_RATE_READINGS [42102-240]
