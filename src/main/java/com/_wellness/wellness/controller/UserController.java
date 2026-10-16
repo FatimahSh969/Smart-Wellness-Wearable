@@ -13,4 +13,13 @@ public class UserController {
     public String checkUserAccess() {
         return "User access granted";
     }
+
+    @GetMapping("/dashboard/{userId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<String> getUserDashboard(@PathVariable Long userId, Authentication authentication) {
+        String currentEmail = (String) authentication.getPrincipal();
+        
+        return ResponseEntity.ok("Welcome to user dashboard, secured for: " + currentEmail);
+    }
+
 }
