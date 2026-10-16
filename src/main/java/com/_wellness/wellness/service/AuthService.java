@@ -32,6 +32,15 @@ public class AuthService {
     }
 
     // Register a new user
+if (request.getName() == null || request.getName().isBlank()
+                || request.getEmail() == null
+                || !request.getEmail().matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")
+                || request.getPassword() == null
+                || request.getPassword().length() < 8) {
+            throw new IllegalArgumentException(
+                    "Invalid name, email, or password (min 8 characters)");
+        }
+
     public String register(RegisterRequest request) {
 
         if (userRepository.existsByEmail(request.getEmail())) {
