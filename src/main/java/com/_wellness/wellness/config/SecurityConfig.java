@@ -3,6 +3,9 @@ package com._wellness.wellness.config;
 
 import com._wellness.wellness.security.JwtAuthenticationFilter;
 
+import com._wellness.wellness.security.AuditAccessDeniedHandler;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -16,10 +19,13 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final AuditAccessDeniedHandler auditAccessDeniedHandler;
 
     public SecurityConfig(
-            JwtAuthenticationFilter jwtAuthenticationFilter) {
+            JwtAuthenticationFilter jwtAuthenticationFilter,
+            AuditAccessDeniedHandler auditAccessDeniedHandler) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.auditAccessDeniedHandler = auditAccessDeniedHandler;
     }
 
     @Bean
@@ -47,10 +53,7 @@ public class SecurityConfig {
                         HttpStatus.UNAUTHORIZED.value(),
                         "Authentication required"))
 
-                .accessDeniedHandler((request, response, exception) ->
-                    response.sendError(
-                        HttpStatus.FORBIDDEN.value(),
-                        "Access denied")))
+                .accessDeniedHandler(auditAccessDeniedHandler))
 
             .authorizeHttpRequests(auth -> auth
 
