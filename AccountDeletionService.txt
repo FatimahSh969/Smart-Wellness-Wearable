@@ -1,0 +1,36 @@
+
+package com._wellness.wellness.service;
+
+import com._wellness.wellness.model.User;
+import com._wellness.wellness.repository.SensorRepository;
+import com._wellness.wellness.repository.UserRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class AccountDeletionService {
+
+    private final UserRepository userRepository;
+    private final SensorRepository sensorRepository;
+
+    public AccountDeletionService(
+            UserRepository userRepository,
+            SensorRepository sensorRepository) {
+        this.userRepository = userRepository;
+        this.sensorRepository = sensorRepository;
+    }
+
+    @Transactional
+    public void deleteUserData(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() ->
+                    new IllegalArgumentException("User not found"));
+
+        
+        sensorRepository.deleteByUserIdValue(user.getId().toString());
+
+       
+        user.setDeleted(true);
+        userRepository.save(user);
+    }
+}

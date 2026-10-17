@@ -1,0 +1,36 @@
+
+package com._wellness.wellness.service;
+
+import com._wellness.wellness.repository.SensorRepository;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
+@Component
+public class DataRetentionScheduler {
+
+    private final SensorRepository sensorRepository;
+
+    public DataRetentionScheduler(SensorRepository sensorRepository) {
+        this.sensorRepository = sensorRepository;
+    }
+
+    
+    @Scheduled(cron = "0 0 2 * * *")
+    @Transactional
+    public void deleteOldSensorReadings() {
+        System.out.println("Retention scheduler test started");
+        Instant cutoff = Instant.now().minus(30, ChronoUnit.DAYS);
+        System.out.println("Cutoff date: " + cutoff);
+
+        int deleted = sensorRepository.deleteOldReadings(cutoff);
+
+        System.out.println(
+            "Privacy cleanup: deleted " + deleted
+            + " old sensor readings."
+        );
+    }
+}
