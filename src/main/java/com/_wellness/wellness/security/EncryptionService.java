@@ -18,7 +18,7 @@ public class EncryptionService {
     private static final int IV_LENGTH = 12;
     private static final int TAG_BITS = 128;
 
-    @Value("${WELLNESS_AES_KEY:}")
+    @Value("${app.encryption.key:}")
     private String base64Key;
 
     private SecretKeySpec key;
